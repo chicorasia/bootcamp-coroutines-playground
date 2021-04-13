@@ -3,7 +3,11 @@ package br.com.chicorialabs.coroutineplayground
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import br.com.chicorialabs.coroutineplayground.databinding.ActivityMainBinding
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity() {
@@ -41,12 +45,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         timer1StartBtn.setOnClickListener {
-            incrementaApos1000Milissegundos()
-
+            lifecycleScope.launch { incrementaApos1000Milissegundos() }
         }
 
         timer2StarBtn.setOnClickListener {
-            incrementaApos5000Milissegundos()
+           lifecycleScope.launch { incrementaApos5000Milissegundos() }
         }
 
         resetTimerBtn.setOnClickListener {
@@ -63,22 +66,16 @@ class MainActivity : AppCompatActivity() {
         updateTimers()
     }
 
-    private fun incrementaApos5000Milissegundos() {
-        Thread {
-            sleep(5000)
-            timer2 += 5.0
-            runOnUiThread { updateTimers() }
-        }.start()
+    private suspend fun incrementaApos5000Milissegundos() {
+        delay(5000)
+        timer2 += 5.0
+        updateTimers()
     }
 
-    private fun incrementaApos1000Milissegundos() {
-        Thread {
-            sleep(1000)
-            timer1 += 1.0
-            runOnUiThread { updateTimers() }
-        }.start()
-
-
+    private suspend fun incrementaApos1000Milissegundos() {
+        delay(1000)
+        timer1 += 1.0
+        updateTimers()
     }
 
     private fun updateTimers() {
