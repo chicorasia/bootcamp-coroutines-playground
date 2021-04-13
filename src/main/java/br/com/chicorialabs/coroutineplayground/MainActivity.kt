@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.TextView
 import br.com.chicorialabs.coroutineplayground.databinding.ActivityMainBinding
+import java.lang.Thread.sleep
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,25 +41,43 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         timer1StartBtn.setOnClickListener {
-            Thread.sleep(1000)
-            timer1 += 1.0
-            updateTimers()
+            incrementaApos1000Milissegundos()
 
         }
 
         timer2StarBtn.setOnClickListener {
-            Thread.sleep(5000)
-            timer2 += 5.0
-            updateTimers()
+            incrementaApos5000Milissegundos()
         }
 
         resetTimerBtn.setOnClickListener {
-            timer1 = 0.0
-            timer2 = 0.0
-            updateTimers()
+            resetTimers()
         }
 
         updateTimers()
+
+    }
+
+    private fun resetTimers() {
+        timer1 = 0.0
+        timer2 = 0.0
+        updateTimers()
+    }
+
+    private fun incrementaApos5000Milissegundos() {
+        Thread {
+            sleep(5000)
+            timer2 += 5.0
+            runOnUiThread { updateTimers() }
+        }.start()
+    }
+
+    private fun incrementaApos1000Milissegundos() {
+        Thread {
+            sleep(1000)
+            timer1 += 1.0
+            runOnUiThread { updateTimers() }
+        }.start()
+
 
     }
 
