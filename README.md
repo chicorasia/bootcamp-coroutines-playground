@@ -2,7 +2,7 @@
 
 Um app para explorar o uso de corrotinas e funções suspend.
 
-Para acompanhar o passo a passo em vídeo, use o commit inicial.
+Para acompanhar o passo a passo em vídeo, use o branch `exercicio-corrotinas`.
 
 ****
 
